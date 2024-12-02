@@ -64,6 +64,7 @@ def main():
     fauclty = select_query("SELECT * FROM Faculty")
     roles = select_query("SELECT * FROM Roles")
     class_code = select_query("SELECT * FROM ClassCode")
+    enrolments = select_query("SELECT * FROM Enroll")
 
     if students:
         column_labels = ['Student ID', 'First Name', 'Last Name', 'DOB','Grade','Guardian First','Guardian Last','Guardian Number', 'Guardian Email', 'Address']
@@ -86,8 +87,15 @@ def main():
         if class_code:
             with st.expander("Class Codes"):
                 st.dataframe(class_code)
+    
+    if enrolments:
+        column_labels = ["Enrollment ID","Student ID", "Class Code", "Room Number", "Faculty ID"]
+        org_enrollment = pd.DataFrame(enrolments, columns=column_labels)
 
-    tab1,tab2,tab3,tab4 = st.tabs(["Insert Data", "Delete Data", "Modify Data", "Test4"])
+        st.subheader("Enrollments:")
+        st.dataframe(org_enrollment)
+
+    tab1,tab2,tab3,tab4 = st.tabs(["Insert Data", "Delete Data", "Modify Data", "View Data"])
 
     with tab1:
         with st.form(key = 'create_form'):
@@ -295,6 +303,18 @@ def main():
                     """.format(choice)
                         newValues = (change, enrollmentID)
                         insert_query(update,newValues)
+    with tab4:
+        with st.form(key="viewForm"):
+
+            st.subheader("View Student in Database:")
+            studentID = st.text_input("Enter Student ID:")
+            submitID = st.form_submit_button("View")
+
+            if submitID:
+                st.error("Not currently Working! :( ")
+
+                
+
 
 
                         
